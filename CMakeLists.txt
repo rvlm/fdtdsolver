@@ -6,6 +6,7 @@ add_executable(fdtdsolver
     include/rvlm/fdtd/Domain.hh
     include/rvlm/fdtd/Probe.hh
     include/rvlm/fdtd/ResistiveSource.hh
+    include/rvlm/fdtd/Common.hh
     include/rvlm/fdtd/Block.hh
     src/Block.cc
     src/Domain.cc

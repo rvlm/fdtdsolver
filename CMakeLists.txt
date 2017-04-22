@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 2.8)
 add_subdirectory(submodules/rvlm-common)
 
 add_executable(fdtdsolver
+    include/rvlm/fdtd/Domain.hh
+    include/rvlm/fdtd/Probe.hh
+    include/rvlm/fdtd/ResistiveSource.hh
+    include/rvlm/fdtd/Block.hh
     src/Block.cc
     src/Domain.cc
     src/Probe.cc

@@ -3,11 +3,14 @@ cmake_minimum_required(VERSION 2.8)
 add_subdirectory(submodules/rvlm-common)
 
 add_executable(fdtdsolver
+    include/rvlm/fdtd/BasicFdtdBlock.hh
     include/rvlm/fdtd/Block.hh
     include/rvlm/fdtd/Common.hh
     include/rvlm/fdtd/Domain.hh
     include/rvlm/fdtd/Field.hh
     include/rvlm/fdtd/Lattice.hh
+    include/rvlm/fdtd/Medium.hh
+    include/rvlm/fdtd/MemoryMedium.hh
     include/rvlm/fdtd/Probe.hh
     include/rvlm/fdtd/ProbeElement.hh
     include/rvlm/fdtd/ResistiveSource.hh

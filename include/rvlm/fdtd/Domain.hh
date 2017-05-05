@@ -20,7 +20,7 @@ template <typename T=double>
 class Domain {
 public:
 
-    Domain(IndexType nx, IndexType ny, IndexType nz)
+    Domain(Lattice<T> const* lattice, IndexType nx, IndexType ny, IndexType nz)
         : mBlocks(nx, ny, nz, nullptr) {
     }
 
@@ -30,10 +30,17 @@ public:
 
     void setBlock(IndexType ix, IndexType iy, IndexType iz, Block<T>* block) {
         mBlocks.at(ix, iy, iz) = block;
+        block->setDomain(this);
+    }
+
+    Lattice<T> const* getLattice() const { return mLattice; }
+
+    void setLattice(Lattice<T> const* lattice) {
+        mLattice = lattice;
     }
 
 private:
-    Lattice<T> *mLattice;
+    Lattice<T> const* mLattice;
 
     rvlm::core::SolidArray3d<Block<T>*, IndexType> mBlocks;
     std::vector<Probe<T>*>  mProbes;

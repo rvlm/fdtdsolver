@@ -15,52 +15,27 @@ template <typename T = double>
 class Block: public rvlm::core::NonAssignable {
 public:
 
-    explicit Block(IndexType nx, IndexType ny, IndexType nz)
-        : mFieldEx(nx, ny, nz)
-        , mFieldEy(nx, ny, nz)
-        , mFieldEz(nx, ny, nz)
-        , mFieldHx(nx, ny, nz)
-        , mFieldHy(nx, ny, nz)
-        , mFieldHz(nx, ny, nz)
-        {}
+    explicit Block(IndicesRange const& presentIndices)
+        : mPresentIndices(presentIndices) {}
 
-    typedef rvlm::core::SolidArray3d<T> ArrayType;
+    virtual ~Block() {}
 
     Domain<T>* getDomain() const { return mDomain; }
 
-    rvlm::core::Cuboid<T> getBounds() const { return mBounds; }
+    rvlm::core::Cuboid<T> getPresentIndices() const { return mPresentIndices; }
 
-    ArrayType& getFieldEx() const { return mFieldEx; }
-
-/* construction: */
-
-    void setDomain(Domain<T>* value) { mDomain = value; }
-    void setBounds(core::Cuboid<T> const& value) { mBounds = value; }
+    virtual boost::optional<ArrayType<T>&> getFieldArray(Field field) {
+        return {};
+    }
 
 private:
 
+    void setDomain(Domain<T>* value) { mDomain = value; }
+
     Domain<T>* mDomain;
+    rvlm::core::Cuboid<IndexType> mPresentIndices;
 
-    rvlm::core::Cuboid<T> mBounds;
-
-    ArrayType mFieldEx;
-    ArrayType mFieldEy;
-    ArrayType mFieldEz;
-    ArrayType mFieldHx;
-    ArrayType mFieldHy;
-    ArrayType mFieldHz;
-    // ArrayType mMaterialEpsEx;
-    // ArrayType mMaterialEpsEy;
-    // ArrayType mMaterialEpsEz;
-    // ArrayType mMaterialMuHx;
-    // ArrayType mMaterialMuHy;
-    // ArrayType mMaterialMuHz;
-    // ArrayType mMaterialSigmaEx;
-    // ArrayType mMaterialSigmaEy;
-    // ArrayType mMaterialSigmaEz;
-    // ArrayType mMaterialSigmaHx;
-    // ArrayType mMaterialSigmaHy;
-    // ArrayType mMaterialSigmaHz;
+    friend class Domain<T>;
 };
 
 } // namespace fdtd

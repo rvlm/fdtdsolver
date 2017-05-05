@@ -10,6 +10,18 @@ enum class Field {
     Hx,
     Hy,
     Hz,
+    EpsEx,
+    EpsEy,
+    EpsEz,
+    MuHx,
+    MuHy,
+    MuHz,
+    SigmaEx,
+    SigmaEy,
+    SigmaEz,
+    SigmaHx,
+    SigmaHy,
+    SigmaHz,
 };
 
 }

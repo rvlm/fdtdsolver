@@ -1,12 +1,14 @@
 #pragma once
-#include "rvlm/core/NonAssignable.hh"
 #include "rvlm/core/Cuboid.hh"
+#include "rvlm/core/NonAssignable.hh"
 #include "rvlm/core/SolidArray3d.hh"
 #include "rvlm/fdtd/Common.hh"
+#include "rvlm/fdtd/Domain.hh"
 
 namespace rvlm {
 namespace fdtd {
 
+template <typename T>
 class Domain;
 
 template <typename T = double>
@@ -24,7 +26,7 @@ public:
 
     typedef rvlm::core::SolidArray3d<T> ArrayType;
 
-    Domain* getDomain() const { return mDomain; }
+    Domain<T>* getDomain() const { return mDomain; }
 
     rvlm::core::Cuboid<T> getBounds() const { return mBounds; }
 
@@ -32,12 +34,12 @@ public:
 
 /* construction: */
 
-    void setDomain(Domain* value) { mDomain = value; }
+    void setDomain(Domain<T>* value) { mDomain = value; }
     void setBounds(core::Cuboid<T> const& value) { mBounds = value; }
 
 private:
 
-    Domain* mDomain;
+    Domain<T>* mDomain;
 
     rvlm::core::Cuboid<T> mBounds;
 

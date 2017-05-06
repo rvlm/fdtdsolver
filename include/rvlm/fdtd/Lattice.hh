@@ -84,7 +84,8 @@ public:
         return {};
     }
 
-    boost::optional<rvlm::fdtd::Triple<IndexType>> getSublatticeDimensions(Field field) const {
+    boost::optional<rvlm::fdtd::Triple<IndexType>> getSublatticeDims(
+            Field field) const {
         auto sublattice = getSublattice(field);
         if (!sublattice)
             return {};

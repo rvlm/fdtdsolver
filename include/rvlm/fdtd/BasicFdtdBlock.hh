@@ -1,4 +1,5 @@
 #pragma once
+#include "rvlm/fdtd/Lattice.hh"
 #include "rvlm/fdtd/Block.hh"
 
 namespace rvlm {
@@ -8,8 +9,15 @@ template <typename T = double>
 class BasicFdtdBlock: public Block {
 public:
 
-    explicit BasicFdtdBlock(IndicesRange const& presentIndices)
-            : Block(presentIndices) {}
+    static Indices getDims(Lattice<T> const& lattice, IndicesRange const& presentIndices);
+
+    explicit BasicFdtdBlock(Lattice<T> const& lattice, IndicesRange const& presentIndices)
+        : Block(presentIndices)
+        , mFieldEx(lattice.getDims(Field::Ex, presentIndices))
+        , mFieldEy(presentIndices)
+        , mFieldEz(presentIndices)
+
+    {}
 
     virtual boost::optional<ArrayType<T>&> getFieldArray(Field field) {
 

@@ -15,16 +15,23 @@ template <typename T = double>
 class Block: public rvlm::core::NonAssignable {
 public:
 
-    explicit Block(IndicesRange const& presentIndices)
+    explicit Block(Triple<HalfOpenIndexRange> const& presentIndices)
         : mPresentIndices(presentIndices) {}
 
     virtual ~Block() {}
 
     Domain<T>* getDomain() const { return mDomain; }
 
-    rvlm::core::Cuboid<T> getPresentIndices() const { return mPresentIndices; }
+    virtual Triple<HalfOpenIndexRange> getRequiredYeeIndices(Field field) const {
 
-    virtual boost::optional<ArrayType<T>&> getFieldArray(Field field) {
+    }
+
+    Triple<HalfOpenIndexRange> getPresentYeeIndices() const {
+        return mPresentIndices;
+    }
+
+
+    virtual boost::optional<fdtd::ArrayType<T>&> getFieldArray(Field field) {
         return {};
     }
 
@@ -33,7 +40,7 @@ private:
     void setDomain(Domain<T>* value) { mDomain = value; }
 
     Domain<T>* mDomain;
-    rvlm::core::Cuboid<IndexType> mPresentIndices;
+    Triple<HalfOpenIndexRange> mPresentIndices;
 
     friend class Domain<T>;
 };

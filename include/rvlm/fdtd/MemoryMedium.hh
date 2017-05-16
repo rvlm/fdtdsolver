@@ -6,6 +6,7 @@
 namespace rvlm {
 namespace fdtd {
 
+#if 0
 template<typename T=double>
 class MemoryMedium {
 public:
@@ -101,6 +102,7 @@ private:
     ArrayType<T> mMaterialSigmaHy;
     ArrayType<T> mMaterialSigmaHz;
 };
+#endif
 
 }
 }

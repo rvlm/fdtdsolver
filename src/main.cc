@@ -1,22 +1,25 @@
+#include <boost/tuple/tuple.hpp>
 #include <rvlm/fdtd/MemoryMedium.hh>
 #include "rvlm/core/Cuboid.hh"
 #include "rvlm/fdtd/Domain.hh"
 #include "rvlm/fdtd/Block.hh"
 
 int main() {
+
     using namespace rvlm::fdtd;
 
     IndexType nx = 128, ny = 128, nz = 128;
 
-    Lattice<> lattice(nx, ny, nz, 0.01);
-    lattice.getSublattice(Field::Ex);
+    Lattice<> lattice(std::make_tuple(nx, ny, nz), std::make_tuple(0.1, 0.1, 0.1));
 
-    MemoryMedium<> medium(lattice);
+    //MemoryMedium<> medium(lattice);
 
     Domain<> domain(&lattice, 1, 1, 1);
 
 
-    IndicesRange range = {0,0,0, nx, ny, nz};
+    auto range = std::make_tuple(HalfOpenIndexRange(0, nx),
+                                 HalfOpenIndexRange(0, ny),
+                                 HalfOpenIndexRange(0, nz));
     Block<> block(range);
     block.getFieldArray(Field::Ex);
 

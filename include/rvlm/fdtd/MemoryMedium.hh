@@ -6,53 +6,62 @@
 namespace rvlm {
 namespace fdtd {
 
-#if 0
 template<typename T=double>
-class MemoryMedium {
+class MemoryMedium: public Medium<T> {
 public:
 
     using Const = rvlm::core::Constants<T>;
 
     MemoryMedium(Lattice<T> const& lattice)
-        : mMaterialEpsEx  (lattice.getSublatticeDims(Field::Ex).get(), Const::EPS_0())
-        , mMaterialEpsEy  (lattice.getSublatticeDims(Field::Ey).get(), Const::EPS_0())
-        , mMaterialEpsEz  (lattice.getSublatticeDims(Field::Ez).get(), Const::EPS_0())
-        , mMaterialMuHx   (lattice.getSublatticeDims(Field::Hx).get(), Const::MU_0())
-        , mMaterialMuHy   (lattice.getSublatticeDims(Field::Hy).get(), Const::MU_0())
-        , mMaterialMuHz   (lattice.getSublatticeDims(Field::Hz).get(), Const::MU_0())
-        , mMaterialSigmaEx(lattice.getSublatticeDims(Field::Ex).get())
-        , mMaterialSigmaEy(lattice.getSublatticeDims(Field::Ey).get())
-        , mMaterialSigmaEz(lattice.getSublatticeDims(Field::Ez).get())
-        , mMaterialSigmaHx(lattice.getSublatticeDims(Field::Hx).get())
-        , mMaterialSigmaHy(lattice.getSublatticeDims(Field::Hy).get())
-        , mMaterialSigmaHz(lattice.getSublatticeDims(Field::Hz).get())
+        : mMaterialEpsEx  (lattice.getDimensions(), Const::EPS_0())
+        , mMaterialEpsEy  (lattice.getDimensions(), Const::EPS_0())
+        , mMaterialEpsEz  (lattice.getDimensions(), Const::EPS_0())
+        , mMaterialMuHx   (lattice.getDimensions(), Const::MU_0())
+        , mMaterialMuHy   (lattice.getDimensions(), Const::MU_0())
+        , mMaterialMuHz   (lattice.getDimensions(), Const::MU_0())
+        , mMaterialSigmaEx(lattice.getDimensions(), T(0))
+        , mMaterialSigmaEy(lattice.getDimensions(), T(0))
+        , mMaterialSigmaEz(lattice.getDimensions(), T(0))
+        , mMaterialSigmaHx(lattice.getDimensions(), T(0))
+        , mMaterialSigmaHy(lattice.getDimensions(), T(0))
+        , mMaterialSigmaHz(lattice.getDimensions(), T(0))
         {}
 
-    virtual boost::optional<T> get(Field field, Indices const& position) const {
+    virtual
+    boost::optional<T> get(Field field, Indices const& position) const override{
         auto array = getArray(field);
         if (!array)
             return {};
 
+        auto ix = std::get<0>(position);
+        auto iy = std::get<1>(position);
+        auto iz = std::get<2>(position);
+
         // TODO: Check index bounds.
-        return array.get().at(position.getX(), position.getY(), position.getZ());
+        return array.get().at(ix, iy, iz);
     }
 
-    virtual bool retrieve(Field field, IndicesRange range,
-                       ArrayType<T>& destination, Indices const& origin) const {
+    virtual
+    bool retrieve(Field field, IndicesRange const& range,
+              ArrayType<T>& destination, Indices const& origin) const override {
 
         auto array = getArray(field);
         if (!array)
             return false;
 
-        // TODO: Make these for loops not so ugly.
+        auto rangeX = std::get<0>(range);
+        auto rangeY = std::get<1>(range);
+        auto rangeZ = std::get<2>(range);
+
         // TODO: Check index bounds.
-        for (IndexType ixSrc=range.getX1(), ixDst=origin.getX(); ixSrc<range.getX2(); ++ixSrc, ++ixDst)
-        for (IndexType iySrc=range.getY1(), iyDst=origin.getY(); iySrc<range.getY2(); ++iySrc, ++iyDst)
-        for (IndexType izSrc=range.getZ1(), izDst=origin.getZ(); izSrc<range.getZ2(); ++izSrc, ++izDst)
-            destination.at(ixDst, iyDst, izDst) = array->at(ixSrc, iySrc, izSrc);
+        for (auto ix: rangeX)
+        for (auto iy: rangeY)
+        for (auto iz: rangeZ)
+            destination.at(ix, iy, iz) = array->at(ix, iy, iz);
 
         return true;
     }
+
 
     T& at(Field field, IndexType ix, IndexType iy, IndexType iz) {
         // TODO: Check 'field' and index bounds.
@@ -102,7 +111,6 @@ private:
     ArrayType<T> mMaterialSigmaHy;
     ArrayType<T> mMaterialSigmaHz;
 };
-#endif
 
 }
 }

@@ -15,9 +15,8 @@ public:
         return {};
     }
 
-    virtual bool retrieve(Field field, IndicesRange range,
+    virtual bool retrieve(Field field, IndicesRange const& range,
                        ArrayType<T>& destination, Indices const& origin) const {
-
         return false;
     }
 };

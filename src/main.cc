@@ -2,7 +2,7 @@
 #include <rvlm/fdtd/MemoryMedium.hh>
 #include "rvlm/core/Cuboid.hh"
 #include "rvlm/fdtd/Domain.hh"
-#include "rvlm/fdtd/Block.hh"
+#include "rvlm/fdtd/BasicFdtdBlock.hh"
 
 int main() {
 
@@ -12,7 +12,7 @@ int main() {
 
     Lattice<> lattice(std::make_tuple(nx, ny, nz), std::make_tuple(0.1, 0.1, 0.1));
 
-    //MemoryMedium<> medium(lattice);
+    MemoryMedium<> medium(lattice);
 
     Domain<> domain(&lattice, 1, 1, 1);
 
@@ -20,7 +20,7 @@ int main() {
     auto range = std::make_tuple(HalfOpenIndexRange(0, nx),
                                  HalfOpenIndexRange(0, ny),
                                  HalfOpenIndexRange(0, nz));
-    Block<> block(range);
+    BasicFdtdBlock<> block(lattice, range);
     block.getFieldArray(Field::Ex);
 
     domain.setBlock(0, 0, 0, &block);

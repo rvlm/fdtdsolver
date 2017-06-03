@@ -9,7 +9,6 @@ add_executable(fdtdsolver
     include/rvlm/fdtd/Common.hh
     include/rvlm/fdtd/Domain.hh
     include/rvlm/fdtd/Field.hh
-    include/rvlm/fdtd/Fieldset.hh
     include/rvlm/fdtd/Lattice.hh
     include/rvlm/fdtd/Medium.hh
     include/rvlm/fdtd/MemoryMedium.hh

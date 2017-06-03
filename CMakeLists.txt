@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
+project(rfdtd)
 
 add_subdirectory(submodules/rvlm-common)
 

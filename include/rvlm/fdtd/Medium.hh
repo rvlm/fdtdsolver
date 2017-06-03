@@ -1,7 +1,6 @@
 #pragma once
 
 #include <boost/optional.hpp>
-#include "rvlm/core/Vector3d.hh"
 #include "rvlm/fdtd/Common.hh"
 #include "rvlm/fdtd/Field.hh"
 

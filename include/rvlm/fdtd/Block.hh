@@ -11,7 +11,7 @@ namespace fdtd {
 template <typename T>
 class Domain;
 
-template <typename T = double>
+template <typename T=double>
 class Block: public rvlm::core::NonAssignable {
 public:
 
@@ -29,7 +29,6 @@ public:
     Triple<HalfOpenIndexRange> getPresentYeeIndices() const {
         return mPresentIndices;
     }
-
 
     virtual boost::optional<fdtd::ArrayType<T>&> getFieldArray(Field field) {
         return {};

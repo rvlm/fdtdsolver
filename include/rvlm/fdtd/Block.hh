@@ -34,6 +34,24 @@ public:
         return {};
     }
 
+    boost::optional<fdtd::ArrayType<T> const&> getFieldArray(Field field) const {
+        // Since we don't want to have a separate hierarchy of virtual
+        // calls for 'getFieldArray() const', let's just reuse the existing
+        // one by removing the 'const' from 'this', calling the sibling
+        // function, and then adding 'const' to the obtained result.
+        auto optArray = const_cast<Block<T>*>(this)->getFieldArray(field);
+        if (!optArray)
+            return {};
+
+        return const_cast<fdtd::ArrayType<T> const&> (*optArray);
+    }
+
+    virtual void startSimulation() = 0;
+
+    virtual void simulateTimeStep(T const& deltaT) = 0;
+
+    virtual void stopSimulation() = 0;
+
 private:
 
     void setDomain(Domain<T>* value) { mDomain = value; }

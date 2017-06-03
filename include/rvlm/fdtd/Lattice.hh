@@ -106,6 +106,10 @@ public:
             mHyzDeltasX[uz] = deltaZ * uz - deltaZ/2;
     }
 
+    Triple<IndexType> const& getDimensions() const {
+        return mDimensions;
+    }
+
     Iterator getTickIterator(Field field, Axis axis, IndexType idx) const {
 
         // TODO: Optimize out unnecessary 'vector.cbegin()' evaluations.
@@ -185,6 +189,8 @@ public:
     }
 
 private:
+
+    Triple<IndexType> mDimensions;
 
     std::vector<T> mExyTicksZ;
     std::vector<T> mExzTicksY;

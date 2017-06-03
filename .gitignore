@@ -1,1 +1,5 @@
 .idea/
+
+# User may potentially want to create a number of build different build
+# directories, like: 'build', 'build-release', 'build-old', etc.
+build*/
